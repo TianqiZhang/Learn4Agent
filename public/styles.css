@@ -161,6 +161,28 @@ main {
   color: var(--error);
 }
 
+.type-badge {
+  display: inline-block;
+  padding: 0.125rem 0.4rem;
+  border-radius: 3px;
+  font-weight: 600;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  margin-right: 0.5rem;
+  vertical-align: middle;
+}
+
+.type-badge.page {
+  background: rgba(0, 120, 212, 0.2);
+  color: var(--accent);
+}
+
+.type-badge.search {
+  background: rgba(156, 108, 204, 0.2);
+  color: #c792ea;
+}
+
 #content-preview {
   display: flex;
   flex-direction: column;

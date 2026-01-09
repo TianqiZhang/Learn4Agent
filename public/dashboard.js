@@ -68,8 +68,10 @@ function addLogEntry(data) {
   const entry = document.createElement('div');
   entry.className = `log-entry new ${data.status}`;
   entry.id = `entry-${data.id}`;
+  const typeLabel = data.isSearch ? 'search' : 'page';
+  const displayPath = data.isSearch ? data.originalUrl : data.path;
   entry.innerHTML = `
-    <div class="path">${escapeHtml(data.path)}</div>
+    <div class="path"><span class="type-badge ${typeLabel}">${typeLabel}</span> ${escapeHtml(displayPath)}</div>
     <div class="meta">
       <span class="time">${formatTime(data.timestamp)}</span>
       <span class="status-badge">${data.status}</span>
@@ -134,6 +136,30 @@ function selectRequest(id) {
 }
 
 function showPreview(data) {
+  // Handle search requests differently
+  if (data.isSearch) {
+    // Show JSON response in markdown source tab
+    if (data.searchResponse) {
+      markdownSource.textContent = JSON.stringify(data.searchResponse, null, 2);
+    } else if (data.error) {
+      markdownSource.textContent = `Error: ${data.error}`;
+    } else {
+      markdownSource.textContent = 'Searching...';
+    }
+
+    // Disable rendered and metadata tabs for search
+    renderedContent.innerHTML = '<p class="placeholder">Search results are shown as JSON in the Source tab</p>';
+    metadataContent.textContent = 'Not available for search requests';
+
+    // Auto-switch to source tab for search results
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelector('.tab[data-tab="source"]').classList.add('active');
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    document.getElementById('source-view').classList.add('active');
+    return;
+  }
+
+  // Handle regular page requests
   if (data.markdown) {
     markdownSource.textContent = data.markdown;
 
