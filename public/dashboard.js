@@ -8,10 +8,16 @@ const statusEl = document.getElementById('status');
 const markdownSource = document.getElementById('markdown-source');
 const renderedContent = document.getElementById('rendered-content');
 const metadataContent = document.getElementById('metadata-content');
+const requestCountEl = document.getElementById('request-count');
+const sizeStatsEl = document.getElementById('size-stats');
+const htmlSizeEl = document.getElementById('html-size');
+const mdSizeEl = document.getElementById('md-size');
+const compressionRatioEl = document.getElementById('compression-ratio');
 
 // Request store
 const requests = new Map();
 let selectedRequestId = null;
+let requestCount = 0;
 
 // WebSocket handlers
 ws.onopen = () => {
@@ -65,6 +71,10 @@ function handleMessage(message) {
 function addLogEntry(data) {
   requests.set(data.id, data);
 
+  // Increment request counter
+  requestCount++;
+  requestCountEl.textContent = requestCount;
+
   const entry = document.createElement('div');
   entry.className = `log-entry new ${data.status}`;
   entry.id = `entry-${data.id}`;
@@ -112,6 +122,30 @@ function updateLogEntry(data) {
       showPreview(data);
     }
   }
+
+  // Update size stats for page requests (not search)
+  if (data.htmlSize && data.markdownSize && !data.isSearch) {
+    updateSizeStats(data.htmlSize, data.markdownSize);
+  }
+}
+
+function updateSizeStats(htmlSize, markdownSize) {
+  sizeStatsEl.style.display = 'flex';
+  htmlSizeEl.textContent = formatBytes(htmlSize);
+  mdSizeEl.textContent = formatBytes(markdownSize);
+
+  // Calculate compression ratio (how much smaller markdown is)
+  const reduction = ((1 - markdownSize / htmlSize) * 100).toFixed(0);
+  compressionRatioEl.textContent = `-${reduction}%`;
+
+  // Add visual feedback based on compression
+  compressionRatioEl.className = 'ratio ' + (reduction > 50 ? 'excellent' : reduction > 30 ? 'good' : '');
+}
+
+function formatBytes(bytes) {
+  if (bytes < 1024) return bytes + ' B';
+  if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+  return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
 }
 
 function selectRequest(id) {

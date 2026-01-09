@@ -6,7 +6,8 @@
       "Bash(curl:*)",
       "Bash(npm init -y)",
       "Bash(npm install:*)",
-      "Bash(npm run dev:*)"
+      "Bash(npm run dev:*)",
+      "WebFetch(domain:localhost)"
     ]
   }
 }

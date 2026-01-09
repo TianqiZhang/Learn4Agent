@@ -76,6 +76,10 @@ Example:
 
     const processingTimeMs = Date.now() - startTime;
 
+    // Calculate sizes for comparison
+    const htmlSize = Buffer.byteLength(html, 'utf8');
+    const markdownSize = Buffer.byteLength(markdown, 'utf8');
+
     // Broadcast success
     broadcast({
       type: 'request_completed',
@@ -88,6 +92,8 @@ Example:
         processingTimeMs,
         markdown,
         metadata,
+        htmlSize,
+        markdownSize,
       },
     });
 
