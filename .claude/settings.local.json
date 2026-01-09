@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__plugin_microsoft-docs_microsoft-learn__microsoft_docs_fetch",
+      "WebSearch",
+      "Bash(curl:*)",
+      "Bash(npm init -y)",
+      "Bash(npm install:*)",
+      "Bash(npm run dev:*)"
+    ]
+  }
+}

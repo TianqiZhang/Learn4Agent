@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Learn4Agent - Real-time Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <h1>Learn4Agent</h1>
+      <p>Real-time AI Agent Documentation Proxy</p>
+    </div>
+    <div id="status" class="status disconnected">Disconnected</div>
+  </header>
+
+  <main>
+    <section id="request-log">
+      <h2>Request History</h2>
+      <div id="log-entries"></div>
+    </section>
+
+    <section id="content-preview">
+      <h2>Content Preview</h2>
+      <div class="preview-tabs">
+        <button class="tab active" data-tab="markdown">Markdown Source</button>
+        <button class="tab" data-tab="rendered">Rendered Preview</button>
+        <button class="tab" data-tab="metadata">Metadata</button>
+      </div>
+      <div id="markdown-view" class="tab-content active">
+        <pre id="markdown-source">Select a request to view its markdown content...</pre>
+      </div>
+      <div id="rendered-view" class="tab-content">
+        <div id="rendered-content">
+          <p class="placeholder">Select a request to view the rendered markdown...</p>
+        </div>
+      </div>
+      <div id="metadata-view" class="tab-content">
+        <pre id="metadata-content">Select a request to view its metadata...</pre>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Hackathon Demo - Agent-friendly documentation interface for Microsoft Learn</p>
+  </footer>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>
