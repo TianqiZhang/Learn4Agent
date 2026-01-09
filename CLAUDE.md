@@ -19,6 +19,12 @@ When browsing Microsoft Learn documentation, use the local proxy:
 | `https://learn.microsoft.com/en-us/azure/...` | `http://localhost:3000/en-us/azure/...` |
 | `https://learn.microsoft.com/en-us/dotnet/...` | `http://localhost:3000/en-us/dotnet/...` |
 
+**Important**: Use `curl` (via Bash tool) to fetch from the proxy. Do NOT use the WebFetch tool - it blocks localhost URLs for security reasons.
+
+```bash
+curl http://localhost:3000/en-us/azure/azure-functions/functions-overview
+```
+
 Start by fetching any doc page. The returned markdown includes instructions for searching.
 
 ## Running the Project
